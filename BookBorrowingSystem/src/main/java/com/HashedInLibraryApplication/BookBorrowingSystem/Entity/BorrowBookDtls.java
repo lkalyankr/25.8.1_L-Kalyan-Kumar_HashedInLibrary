@@ -1,37 +1,40 @@
-package com.HashedInLibraryApplication.userManagement.Entity;
+package com.HashedInLibraryApplication.BookBorrowingSystem.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = {"empId", "role"})})
-public class User {
-
+@Table(name = "borrow_book")
+public class BorrowBookDtls {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private Date startDate;
 
     @Column(nullable = false)
-    private int empId;
-
-    @Email(message= "Please enter a valid email address")
-    @Column(nullable = false)
-    private String email;
+    private Date endDate;
 
     @Column(nullable = false)
-    private String password;
+    private Date returnedDate;
 
     @Column(nullable = false)
-    private String role;
+    private String status;
+
+    @Column(nullable = false)
+    private Long userId;
+
+    @Column(nullable = false)
+    private Long bookId;
 }
+

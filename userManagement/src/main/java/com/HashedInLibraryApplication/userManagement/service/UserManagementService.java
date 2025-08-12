@@ -1,7 +1,8 @@
 package com.HashedInLibraryApplication.userManagement.service;
 
 import com.HashedInLibraryApplication.userManagement.Entity.User;
-import com.HashedInLibraryApplication.userManagement.UserDTO;
+import com.HashedInLibraryApplication.userManagement.DTO.UserDTO;
+import com.HashedInLibraryApplication.userManagement.ExceptionHandling.UserException;
 import com.HashedInLibraryApplication.userManagement.repository.UserManagementRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class UserManagementService {
         return users;
     }
 
-    public Optional<User> getUser(int id) {
+    public User getUser(int id) throws UserException {
         Optional<User> users = userManagementRepository.findById(id);
         if(users.isPresent()){
-            return users;
+            return users.get();
         } else {
-            return null;
+            throw new UserException("User Not Found with id " + id);
         }
     }
 
@@ -39,4 +40,28 @@ public class UserManagementService {
         });
 
     }
+
+    public void updateUser(UserDTO userDTO) throws UserException {
+
+        Optional<User> user = userManagementRepository.findByEmpIdAndRole(userDTO.getEmpId(), userDTO.getRole());
+        if(user.isPresent()){
+            User updatedUser = user.get();
+            updatedUser.setEmail(userDTO.getEmail());
+            updatedUser.setPassword(userDTO.getPassword());
+            userManagementRepository.save(updatedUser);
+        } else{
+            throw  new UserException("Cannot update, User not found ");
+        }
+
+    }
+
+    public void deleteUser(int id) throws UserException {
+        Optional<User> user = userManagementRepository.findById(id);
+        if(user.isPresent()) {
+            userManagementRepository.delete(user.get());
+        } else {
+            throw new UserException("Cannot delete, User not found with id " + id);
+        }
+    }
 }
+

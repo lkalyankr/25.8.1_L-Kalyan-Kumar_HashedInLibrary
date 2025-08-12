@@ -1,13 +1,14 @@
 package com.HashedInLibraryApplication.userManagement.controller;
 
 import com.HashedInLibraryApplication.userManagement.Entity.User;
-import com.HashedInLibraryApplication.userManagement.UserDTO;
+import com.HashedInLibraryApplication.userManagement.DTO.UserDTO;
+import com.HashedInLibraryApplication.userManagement.ExceptionHandling.UserException;
 import com.HashedInLibraryApplication.userManagement.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/user")
 @RestController
@@ -22,16 +23,26 @@ public class UserManagementController {
        return users;
     }
 
-    @RequestMapping("/getUser/{id}")
-    public Optional<User> getUser(@PathVariable int id){
-        Optional<User> user = userManagementService.getUser(id);
+    @GetMapping("/getUser/{id}")
+    public User getUser(@PathVariable int id){
+         User user = userManagementService.getUser(id);
         return user;
     }
 
-    @RequestMapping("/createUser")
+    @PostMapping("/createUser")
     public void createUser(@RequestBody List<UserDTO> userDTO){
         userManagementService.createUser(userDTO);
     }
 
+    @PutMapping("/updateUser")
+    public void updateUser(@RequestBody UserDTO userDTO){
+            userManagementService.updateUser(userDTO);
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable int id){
+            userManagementService.deleteUser(id);
+            return ResponseEntity.ok("User Deleted Successfully");
+    }
 
 }

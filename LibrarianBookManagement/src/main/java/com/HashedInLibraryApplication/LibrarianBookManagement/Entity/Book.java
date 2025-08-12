@@ -1,4 +1,4 @@
-package com.HashedInLibraryApplication.userManagement.Entity;
+package com.HashedInLibraryApplication.LibrarianBookManagement.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -12,26 +12,25 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = {"empId", "role"})})
-public class User {
+@Table(name = "book", uniqueConstraints = { @UniqueConstraint(columnNames = {"title", "author"})})
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String title;
 
     @Column(nullable = false)
-    private int empId;
-
-    @Email(message= "Please enter a valid email address")
-    @Column(nullable = false)
-    private String email;
+    private String author;
 
     @Column(nullable = false)
-    private String password;
+    private String code;
 
     @Column(nullable = false)
-    private String role;
+    private String category;
+
+    @Column(nullable = false)
+    private String count;
 }

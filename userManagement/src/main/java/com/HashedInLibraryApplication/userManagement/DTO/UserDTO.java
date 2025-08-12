@@ -1,4 +1,4 @@
-package com.HashedInLibraryApplication.userManagement;
+package com.HashedInLibraryApplication.userManagement.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
