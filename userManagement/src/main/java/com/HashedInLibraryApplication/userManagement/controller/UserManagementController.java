@@ -5,6 +5,7 @@ import com.HashedInLibraryApplication.userManagement.DTO.UserDTO;
 import com.HashedInLibraryApplication.userManagement.ExceptionHandling.UserException;
 import com.HashedInLibraryApplication.userManagement.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,10 @@ public class UserManagementController {
        return users;
     }
 
-    @GetMapping("/getUser/{id}")
-    public User getUser(@PathVariable int id){
-         User user = userManagementService.getUser(id);
-        return user;
+    @GetMapping(value = "/getUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getUser(@PathVariable Long id){
+         UserDTO userDTO = userManagementService.getUser(id);
+        return userDTO;
     }
 
     @PostMapping("/createUser")
@@ -40,7 +41,7 @@ public class UserManagementController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id){
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
             userManagementService.deleteUser(id);
             return ResponseEntity.ok("User Deleted Successfully");
     }

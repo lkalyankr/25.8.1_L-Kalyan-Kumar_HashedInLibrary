@@ -22,10 +22,12 @@ public class LibrarianBookManagementService {
         return Books;
     }
 
-    public Book getBook(int id) throws BookException {
+    public BookDTO getBook(int id) throws BookException {
+        BookDTO bookDTO = new BookDTO();
         Optional<Book> Books = librarianBookManagementRepository.findById(id);
         if(Books.isPresent()){
-            return Books.get();
+            BeanUtils.copyProperties(Books.get(), bookDTO);
+            return bookDTO;
         } else {
             throw new BookException("Book Not Found with id " + id);
         }

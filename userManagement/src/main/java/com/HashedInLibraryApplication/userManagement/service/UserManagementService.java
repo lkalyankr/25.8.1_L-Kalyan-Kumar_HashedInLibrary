@@ -22,10 +22,12 @@ public class UserManagementService {
         return users;
     }
 
-    public User getUser(int id) throws UserException {
+    public UserDTO getUser(Long id) throws UserException {
+        UserDTO userDTO = new UserDTO();
         Optional<User> users = userManagementRepository.findById(id);
         if(users.isPresent()){
-            return users.get();
+            BeanUtils.copyProperties(users.get(),userDTO);
+            return userDTO;
         } else {
             throw new UserException("User Not Found with id " + id);
         }
@@ -34,9 +36,14 @@ public class UserManagementService {
     public void createUser(List<UserDTO> userDTOList) {
 
         userDTOList.forEach(userDTO -> {
-            User user = new User();
-            BeanUtils.copyProperties(userDTO, user);
-            userManagementRepository.save(user);
+            Optional<User> userList = userManagementRepository.findByEmpIdAndRole(userDTO.getEmpId(), userDTO.getRole());
+            if(userList.isPresent()){
+                throw  new UserException("User Already Exists");
+            } else {
+                User user = new User();
+                BeanUtils.copyProperties(userDTO, user);
+                userManagementRepository.save(user);
+            }
         });
 
     }
@@ -55,7 +62,7 @@ public class UserManagementService {
 
     }
 
-    public void deleteUser(int id) throws UserException {
+    public void deleteUser(Long id) throws UserException {
         Optional<User> user = userManagementRepository.findById(id);
         if(user.isPresent()) {
             userManagementRepository.delete(user.get());

@@ -32,5 +32,5 @@ public class Book {
     private String category;
 
     @Column(nullable = false)
-    private String count;
+    private int count;
 }

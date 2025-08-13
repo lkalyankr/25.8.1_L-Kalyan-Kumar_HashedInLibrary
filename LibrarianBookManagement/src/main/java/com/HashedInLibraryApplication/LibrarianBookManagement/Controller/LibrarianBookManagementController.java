@@ -23,9 +23,9 @@ public class LibrarianBookManagementController {
     }
 
     @GetMapping("/getbook/{id}")
-    public Book getBook(@PathVariable int id){
-        Book user = librarianBookManagementService.getBook(id);
-        return user;
+    public BookDTO getBook(@PathVariable int id){
+        BookDTO bookDTO = librarianBookManagementService.getBook(id);
+        return bookDTO;
     }
 
     @PostMapping("/createbook")
